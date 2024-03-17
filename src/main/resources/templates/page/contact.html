@@ -30,6 +30,31 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        form {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 12px);
+    padding: 6px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+    </style>
 </head>
 
 <body>
@@ -169,29 +194,81 @@
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.3s">
-                    <form>
+                    <form id="contactform">
                         <div class="row g-3">
                             <div class="col-12">
-                                <input type="text" class="form-control border-0 bg-light px-4" placeholder="Your Name" style="height: 55px;">
+                                <label for="name">name:</label>
+                                <input type="text" id="name" name="name" required>
+
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control border-0 bg-light px-4" placeholder="Your Id Number" style="height: 55px;">
+                                <label for="id">ID:</label>
+                                <input type="text" id="id" name="id" required>
+
                             </div>
                             <div class="col-12">
-                                <input type="email" class="form-control border-0 bg-light px-4" placeholder="Your Email" style="height: 55px;">
+                                <label for="email">email:</label>
+                                <input type="text" id="email" name="email" required>
+
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control border-0 bg-light px-4" placeholder="Subject" style="height: 55px;">
+                                <label for="subject">subject:</label>
+                                <input type="text" id="subject" name="subject" required>
+
                             </div>
                             <div class="col-12">
-                                <textarea class="form-control border-0 bg-light px-4 py-3" rows="5" placeholder="Message"></textarea>
+                                <label for="message">message:</label>
+                                <input type="text" id="message" name="message" required>
+
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                <button class="btn btn-primary w-100 py-3" type="submit" onclick="addContact()">Send Message</button>
+
                             </div>
                         </div>
                     </form>
                 </div>
+                <script>
+                    function addContact() {
+                        var name = document.getElementById("name").value;
+                        var id = document.getElementById("id").value;
+                        var email = document.getElementById("email").value;
+                        var subject = document.getElementById("subject").value;
+                        var message = document.getElementById("message").value;
+
+                        var formData = {
+                              name: name,
+                              id: id,
+                              email: email,
+                              subject: subject,
+                              message: message
+                        };
+
+                        fetch('http://localhost:8081/addContact', {
+                          method: 'POST',
+                          headers: {
+                           'Content-Type': 'application/json'
+                        },
+                           body: JSON.stringify(formData)
+                        })
+                          .then(response => {
+                        if (response.ok) {
+                            alert('Message sent successfully!');
+                        // Optionally, clear the form after successful message sending
+                            document.getElementById("contactform").reset();
+                        } else {
+                           alert('Failed to send message. Please try again.');
+                        }
+                        })
+                        .catch(error => {
+                         console.error('Error:', error);
+                         alert('An error occurred. Please try again later.');
+                         });
+                    }
+
+                </script>
+
+
                 <div class="col-xl-4 col-lg-12 wow slideInUp" data-wow-delay="0.6s">
                     <iframe class="position-relative rounded w-100 h-100"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
@@ -278,6 +355,9 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+
+
 </body>
 
 </html>
