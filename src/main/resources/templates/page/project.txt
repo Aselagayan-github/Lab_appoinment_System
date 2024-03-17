@@ -1,0 +1,15 @@
+ <option value="1">Allergy tests</option>
+                            <option value="2">Autoantibody tests</option>
+                            <option value="3">Clinical chemistry tests</option>
+                            <option value="4">Genetic tests</option>
+                            <option value="5">Hematology tests</option>
+                            <option value="6">Hormone tests</option>
++94 769144426
+ABC Laboratories manages appointment scheduling, patient records, and test results.
+Laboratory Teasting
+AbcLaboratories@gmail.com
+ABC Laboratories - Lab Appointment System
+ABC LABORATORIES
+C:\Users\DELL\Desktop\Lab\src\main\resources\templates\index.html
+
+
