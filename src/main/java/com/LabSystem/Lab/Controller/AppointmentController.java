@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -60,6 +61,20 @@ public class AppointmentController {
         List<Appointment> appointments = appointmentRepository.findAll();
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
+    // GET method to retrieve appointment by ID
+    @GetMapping("/appointments/{id}")
+    public ResponseEntity<Appointment> getAppointmentById(@PathVariable String id) {
+        // Find appointment by ID in the repository
+        Optional<Appointment> appointment = appointmentRepository.findById(id);
 
+        // Check if the appointment exists
+        if (appointment.isPresent()) {
+            // If found, return it with HttpStatus OK
+            return new ResponseEntity<>(appointment.get(), HttpStatus.OK);
+        } else {
+            // If not found, return HttpStatus NOT_FOUND
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
