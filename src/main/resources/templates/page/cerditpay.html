@@ -155,7 +155,7 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" onclick="paynow()">Pay Now</button>
+            <button type="submit" onclick="paynow(event)">Pay Now</button>
         </div>
     </form>
 
@@ -206,50 +206,55 @@
            .catch(error => console.error('Error fetching appointment by ID:', error));
    }
 
-   // Call getAllAppointments function when the page loads
-   window.onload = getAllAppointments;
+    // Call getAllAppointments function when the page loads
+    window.onload = getAllAppointments;
 
 
-    function paynow() {
-        var paymentid = document.getElementById("name").value;
-        var name = document.getElementById("id").value;
-        var cardno = document.getElementById("email").value;
-        var cvc = document.getElementById("subject").value;
-        var date = document.getElementById("message").value;
+    function paynow(event) {
+        event.preventDefault(); // Prevent form submission
+        var Apoinmentidno = document.getElementById("Apoinmentidno").value;
+        var name = document.getElementById("name").value;
+        var cardno = document.getElementById("cardno").value;
+        var cvc = document.getElementById("cvc").value;
+        var date = document.getElementById("date").value;
         var payamount = document.getElementById("payamount").value;
 
         var formData = {
-              paymentid: paymentid,
-              name: name,
-              cardno: cardno,
-              cvc: cvc,
-              date: date,
-              payamount: payamount
+            Apoinmentidno: Apoinmentidno,
+            name: name,
+            cardno: cardno,
+            cvc: cvc,
+            date: date,
+            payamount: payamount
         };
 
         fetch('http://localhost:8081/addpayment', {
-          method: 'POST',
-          headers: {
-           'Content-Type': 'application/json'
-        },
-           body: JSON.stringify(formData)
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
         })
-          .then(response => {
-        if (response.ok) {
-            alert('Thankyou!!!!,Payment successfully!,Come again');
-        // Optionally, clear the form after successful message sending
-            document.getElementById("payform").reset();
-            window.location.href = 'index.html'
-        } else {
-           alert('Failed to send message. Please try again.');
-        }
+        .then(response => {
+            if (response.ok) {
+                alert('Thank you! Payment successfully processed. Come again!');
+                document.getElementById("payform").reset(); // Clear the form
+                window.location.href = 'index.html'; // Redirect to index.html
+            } else {
+                alert('Failed to process payment. Please try again.');
+            }
         })
         .catch(error => {
-         console.error('Error:', error);
-         alert('An error occurred. Please try again later.');
-         });
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        });
     }
-
 </script>
+
+
+
+
+
+
 </body>
 </html>

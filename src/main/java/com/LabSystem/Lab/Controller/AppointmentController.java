@@ -24,19 +24,19 @@ public class AppointmentController {
 
     @PostMapping("/appointments")
     public ResponseEntity<String> createAppointment(@RequestBody Appointment appointment) {
-        // Generate Payment ID (You can implement your logic here)
+        // Generate Pay ID (You can implement your logic here)
         String paymentId = generatePaymentId();
 
-        // Set the generated Payment ID
+        // Set the generated Pay ID
         appointment.setPaymentId(paymentId);
 
-        // Save the appointment with Payment ID
+        // Save the appointment with Pay ID
         appointmentRepository.save(appointment);
 
         // Construct success message with appointment details
         String successMessage = "Appointment created successfully." +
                 " \nAppointment Details: " +
-                "\nPayment ID: " + paymentId +
+                "\nPay ID: " + paymentId +
                 "\nName: " + appointment.getName() +
                 "\nID: " + appointment.getId() +
                 "\nEmail: " + appointment.getEmail() +
@@ -50,9 +50,9 @@ public class AppointmentController {
         return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
     }
 
-    // Method to generate Payment ID (you can implement your logic here)
+    // Method to generate Pay ID (you can implement your logic here)
     private String generatePaymentId() {
-        // Implement your logic to generate Payment ID, for example:
+        // Implement your logic to generate Pay ID, for example:
         return "PYMT" + System.currentTimeMillis(); // This is just a sample logic, you can use your own logic here
     }
     // GET method to retrieve all appointments
