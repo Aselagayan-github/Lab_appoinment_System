@@ -288,7 +288,7 @@ input[type="password"] {
 </div>
 <script>
     function getAllContact() {
-        fetch('http://localhost:8081/getAllcontact')
+        fetch('http://localhost:8081/allContacts')
             .then(response => response.json())
             .then(data => {
                 const appointmentTableBody = document.getElementById('appointmentTableBody');
@@ -302,7 +302,7 @@ input[type="password"] {
                         <td>${contact.email}</td>
                         <td>${contact.subject}</td>
                         <td>${contact.message}</td>
-                        <td>Action</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteContact(${contact.id})">Delete</button></td>
                     `;
                     appointmentTableBody.appendChild(row);
                 });
@@ -312,6 +312,7 @@ input[type="password"] {
 
     // Call the function to fetch and display contact data
     getAllContact();
+
 </script>
 
 
@@ -393,6 +394,8 @@ input[type="password"] {
             alert('An error occurred. Please try again later.');
         });
     }
+
+
 </script>
 
 </body>

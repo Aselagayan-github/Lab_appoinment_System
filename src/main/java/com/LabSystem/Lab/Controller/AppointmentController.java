@@ -76,5 +76,22 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    // DELETE method to delete appointment by paymentId
+    @DeleteMapping("/appointments/{paymentId}")
+    public ResponseEntity<String> deleteAppointmentByPaymentId(@PathVariable String paymentId) {
+        // Find appointment by paymentId in the repository
+        Optional<Appointment> appointmentOptional = appointmentRepository.findByPaymentId(paymentId);
+
+        // Check if the appointment exists
+        if (appointmentOptional.isPresent()) {
+            // If found, delete it from the repository
+            appointmentRepository.delete(appointmentOptional.get());
+            // Return success response
+            return new ResponseEntity<>("Appointment with paymentId " + paymentId + " deleted successfully.", HttpStatus.OK);
+        } else {
+            // If not found, return HttpStatus NOT_FOUND
+            return new ResponseEntity<>("Appointment with paymentId " + paymentId + " not found.", HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
