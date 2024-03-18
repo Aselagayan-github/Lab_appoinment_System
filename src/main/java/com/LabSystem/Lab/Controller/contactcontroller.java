@@ -29,6 +29,47 @@ public class contactcontroller {
         }
         return new ResponseEntity<>(contact, HttpStatus.OK);
     }
+    @DeleteMapping("/deleteContact/{id}")
+    public ResponseEntity<?> deleteContact(@PathVariable("id") String id) {
+        try {
+            // Convert the ID to the appropriate type if needed (e.g., Integer)
+            // Example: Integer contactId = Integer.parseInt(id);
+
+            // Check if the contact exists
+            if (contactrepostry.existsById(Integer.valueOf(id))) {
+                // Delete the contact
+                contactrepostry.deleteById(Integer.valueOf(id));
+                return ResponseEntity.ok().body("Contact with ID " + id + " deleted successfully.");
+            } else {
+                return ResponseEntity.notFound().build(); // Contact not found
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to delete contact with ID " + id + ". " + e.getMessage());
+        }
+    }
+
+
+    @PutMapping("/updateContact/{id}")
+    public ResponseEntity<?> updateContact(@PathVariable("id") int id, @RequestBody contact updatedContact) {
+        try {
+            // Check if the contact exists
+            if (contactrepostry.existsById(id)) {
+                // Update the contact
+                updatedContact.setId(id); // Set the ID of the updated contact
+                contactrepostry.save(updatedContact);
+                return ResponseEntity.ok().body("Contact with ID " + id + " updated successfully.");
+            } else {
+                return ResponseEntity.notFound().build(); // Contact not found
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to update contact with ID " + id + ". " + e.getMessage());
+        }
+    }
+
+
+
 
 
 }

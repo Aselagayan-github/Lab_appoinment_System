@@ -165,7 +165,7 @@
 <script>
     // Function to fetch all appointments and populate the table
    function getAllAppointments() {
-       fetch('http://localhost:8081/getAllAppointments')
+       fetch('http://localhost:8081/getAllPayments')
            .then(response => response.json())
            .then(data => {
                const appointmentTableBody = document.getElementById('appointmentTableBody');
