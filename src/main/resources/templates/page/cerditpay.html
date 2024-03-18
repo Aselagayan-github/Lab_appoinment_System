@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beautiful Form and Table</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+    margin-bottom: 20px;
+}
+
+.form h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.form-group button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background-color: #0056b3;
+}
+
+.table-container {
+    margin-top: 50px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="table-container">
+        <h2>Appointments</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>paymentId</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Test</th>
+            </tr>
+            </thead>
+            <tbody id="appoinmentTableBody"></tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <form class="form">
+        <h2>Payment Form</h2>
+        <div class="form-group">
+            <label for="paymentid">Payment Id No:</label>
+            <input type="text" id="paymentid" name="paymentid" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Card Holder Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="cardno">Card Number:</label>
+            <input type="text" id="cardno" name="cardno" required>
+        </div>
+        <div class="form-group">
+            <label for="cvc">CVC Number:</label>
+            <input type="text" id="cvc" name="cvc" required>
+        </div>
+        <div class="form-group">
+            <label for="date">Date(Ex: 08-08-2024):</label>
+            <input type="text" id="date" name="date" required>
+        </div>
+        <div class="form-group">
+            <label for="payamount">Pay Amount:</label>
+            <input type="text" id="payamount" name="payamount" required>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Pay Now</button>
+        </div>
+    </form>
+
+
+</div>
+</body>
+</html>
