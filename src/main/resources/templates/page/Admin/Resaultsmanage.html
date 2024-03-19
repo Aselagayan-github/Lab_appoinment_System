@@ -56,9 +56,10 @@
             <th>Payment ID</th>
             <th>Name</th>
             <th>ID</th>
-            <th>Email</th>
-            <th>Date</th>
-            <th>Time</th>
+            <th>Gender</th>
+            <th>Contactno</th>
+            <th>Testtype</th>
+            <th>Result</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -110,44 +111,44 @@
 
     <h2>Add or Update Test Result Details</h2>
 
-    <form id="appointmentForm">
+    <form id="resultForm">
         <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <label for="Appoinmentid">Appoinmentid:</label>
+            <input type="text" class="form-control" id="Appoinmentid" name="Appoinmentid" required>
         </div>
 
         <div class="form-group">
-            <label for="id">ID:</label>
-            <input type="text" class="form-control" id="id" name="id" required>
+            <label for="Name">Name:</label>
+            <input type="text" class="form-control" id="Name" name="Name" required>
         </div>
 
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="text" class="form-control" id="email" name="email" required>
+            <label for="Id">Id:</label>
+            <input type="text" class="form-control" id="Id" name="Id" required>
         </div>
 
         <div class="form-group">
-            <label for="address">Address:</label>
-            <input type="text" class="form-control" id="address" name="address" required>
+            <label for="Gender">Gender:</label>
+            <input type="text" class="form-control" id="Gender" name="Gender" required>
         </div>
 
         <div class="form-group">
-            <label for="phoneNumber">Phone Number:</label>
-            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" required>
+            <label for="Contactno">Phone Number:</label>
+            <input type="text" class="form-control" id="Contactno" name="Contactno" required>
         </div>
 
         <div class="form-group">
-            <label for="date">Date (Ex: 08-08-2024):</label>
-            <input type="text" class="form-control" id="date" name="date" required>
+            <label for="Testtype">Testtype:</label>
+            <input type="text" class="form-control" id="Testtype" name="Testtype" required>
         </div>
 
         <div class="form-group">
-            <label for="time">Time(Ex: 07:00:00 must should enter this pattern):</label>
-            <input type="text" class="form-control" id="time" name="time" required>
+            <label for="Result">Result:</label>
+            <input type="text" class="form-control" id="Result" name="Result" required>
         </div>
 
-        <button type="button" class="btn btn-success" onclick="updateAppointment()">Submit Appointment</button>
-        <button type="button" class="btn btn-success" onclick="updateAppointment()">Update Appointment</button>
+        <button type="button" class="btn btn-success" onclick="updateAppointment()">Submit Result</button>
+        <button type="button" class="btn btn-success" onclick="updateAppointment()">Update Result</button>
 
     </form>
 

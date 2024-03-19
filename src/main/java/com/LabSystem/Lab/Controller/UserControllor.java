@@ -44,9 +44,9 @@ public class UserControllor {
     }
 
     @PutMapping("/updateUser/{id}")
-    public ResponseEntity<String> updateUserById(@PathVariable String idno, @RequestBody User newUser) {
+    public ResponseEntity<String> updateUserById(@PathVariable String id, @RequestBody User newUser) {
         try {
-            Optional<User> userOptional = userrepository.findById(Integer.valueOf(idno));
+            Optional<User> userOptional = userrepository.findById(Integer.valueOf(id));
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 user.setName(newUser.getName());
@@ -58,10 +58,10 @@ public class UserControllor {
                 user.setPassword(newUser.getPassword());
 
                 userrepository.save(user);
-                return ResponseEntity.ok("User with ID " + idno + " updated successfully.");
+                return ResponseEntity.ok("User with ID " + id + " updated successfully.");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("User with ID " + idno + " not found.");
+                        .body("User with ID " + id + " not found.");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
