@@ -44,45 +44,110 @@
     <table class="table">
         <thead>
         <tr>
-            <th>User ID</th>
-            <th>User Name</th>
-            <th>Email</th>
-            <th>User Type</th>
-            <th>Action</th>
+            <th>idno</th>
+            <th>name</th>
+            <th>Address</th>
+            <th>Contactno</th>
+            <th>Usertype</th>
+            <th>Qualified</th>
+            <th>Experience</th>
+            <th>Password</th>
         </tr>
         </thead>
         <tbody id="userTableBody"></tbody>
     </table>
 
+    <script>
+        function getallusers() {
+            fetch('http://localhost:8081/allUsers')
+                .then(response => response.json())
+                .then(data => {
+                    const userTableBody = document.getElementById('userTableBody');
+                    userTableBody.innerHTML = '';
+
+                    data.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.id}</td>
+                            <td>${user.name}</td>
+                            <td>${user.address}</td>
+                            <td>${user.contactno}</td>
+                            <td>${user.usertype}</td>
+                            <td>${user.qulification}</td>
+                            <td>${user.experience}</td>
+                            <td>${user.password}</td>
+                            <td><button class="btn btn-danger btn-sm" onclick="deleteContact(${user.id})">Delete</button></td>
+                        `;
+                        userTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching contact data:', error));
+        }
+
+        // Call the function to fetch and display contact data
+        getallusers()
+
+    </script>
+
     <!-- Add or Update User Form -->
     <h2>Add or Update User</h2>
     <form id="userForm">
         <div class="mb-3">
-            <label for="uname" class="form-label">User Name:</label>
-            <input type="text" class="form-control" id="uname" name="uname" required>
+            <label for="idno" class="form-label">User Id:</label>
+            <input type="text" class="form-control" id="idno" name="idno" required>
         </div>
 
         <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
 
+        <div class="mb-3">
+            <label for="Address" class="form-label">Address:</label>
+            <input type="text" class="form-control" id="Address" name="Address" required>
+        </div>
+        <div class="mb-3">
+            <label for="Contactno" class="form-label">Address:</label>
+            <input type="text" class="form-control" id="Contactno" name="Contactno" required>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="Usertype" class="form-label">User Type:</label>
+            <select class="form-select" id="Usertype" name="Usertype" required>
+                <option value="">Select User Type</option>
+                <option value="Admin">Admin</option>
+                <option value="Lab_Technician">Lab Technician</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="Qualified" class="form-label">Qualified:</label>
+            <select class="form-select" id="Qualified" name="Qualified" required>
+                <option value="">Select Qualifiede</option>
+                <option value="Certified">Certified</option>
+                <option value="Not_Certified">Not Certified</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="Experience" class="form-label">Experience:</label>
+            <select class="form-select" id="Experience" name="Experience" required>
+                <option value="">Select Experience</option>
+                <option value="1">1 Year</option>
+                <option value="2">2 Year</option>
+                <option value="3">4 Year</option>
+                <option value="4">5 Year</option>
+                <option value="5">8 Year</option>
+
+            </select>
+        </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password:</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
 
-        <div class="mb-3">
-            <label for="utype" class="form-label">User Type:</label>
-            <select class="form-select" id="utype" name="utype" required>
-                <option value="">Select User Type</option>
-                <option value="Admin">Admin</option>
-                <option value="Lab Technician">Lab Technician</option>
-            </select>
-        </div>
-
-        <button type="button" class="btn btn-primary btn-margin" onclick="addOrUpdateUser()">Add/Update User</button>
+        <button type="button" class="btn btn-primary btn-margin" onclick="addOrUpdateUser()">Add User</button>
         <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+        <button type="button" class="btn btn-primary btn-margin" onclick="UpdateUser()">Update User</button>
     </form>
 
     <!-- Message Display -->

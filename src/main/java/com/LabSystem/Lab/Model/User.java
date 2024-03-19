@@ -16,7 +16,17 @@ public class User {
     String usertype;
     String qulification;
     String experience;
-    public User(String idno, String name, String address, String contactno, String usertype, String qulification, String experience) {
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    String password;
+    public User(String idno, String name, String address, String contactno, String usertype, String qulification, String experience, String password) {
         this.idno = idno;
         this.name = name;
         this.address = address;
@@ -24,6 +34,7 @@ public class User {
         this.usertype = usertype;
         this.qulification = qulification;
         this.experience = experience;
+        this.password = password;
     }
 
 

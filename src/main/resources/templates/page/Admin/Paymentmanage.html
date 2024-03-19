@@ -8234,6 +8234,7 @@ h1, h2, h3, h4, h5,
                             <th class="cardno">cardno</th>
                             <th class="date">date</th>
                             <th class="payamount">payamount</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody id="dailysailsview"></tbody>
@@ -8259,6 +8260,7 @@ h1, h2, h3, h4, h5,
                         <td>${pay.cardno}</td>
                         <td>${pay.date}</td>
                         <td>${pay.payamount}</td>
+                        <td><button  onclick="deleteContact(${pay.apoinmentidno})">Delete</button></td>
                     `;
                     dailysailsview.appendChild(row);
                 });
