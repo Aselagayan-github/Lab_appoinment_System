@@ -114,8 +114,9 @@
         <table class="table" id="appointmentTable">
             <thead>
             <tr>
-                <th>Payment ID</th>
+                <th>Apoinmentidno</th>
                 <th>Name</th>
+                <th>Id</th>
                 <th>Email</th>
                 <th>Date</th>
                 <th>Test</th>
@@ -163,51 +164,48 @@
 </div>
 
 <script>
-    // Function to fetch all appointments and populate the table
-   function getAllAppointments() {
-       fetch('http://localhost:8081/getAllPayments')
-           .then(response => response.json())
-           .then(data => {
-               const appointmentTableBody = document.getElementById('appointmentTableBody');
-               appointmentTableBody.innerHTML = '';
+    function getAllAppointments() {
+    fetch('http://localhost:8081/getAllPayments')
+        .then(response => response.json())
+        .then(data => {
+            const appointmentTableBody = document.getElementById('appointmentTableBody');
+            appointmentTableBody.innerHTML = '';
 
-               data.forEach(appointment => {
-                   const row = document.createElement('tr');
-                   row.innerHTML = `
-                       <td>${appointment.paymentId}</td>
-                       <td>${appointment.name}</td>
-                       <td>${appointment.email}</td>
-                       <td>${appointment.date}</td>
-                       <td>${appointment.test}</td>
-                   `;
-                   appointmentTableBody.appendChild(row);
-               });
-           })
-           .catch(error => console.error('Error fetching appointments:', error));
-   }
+            data.forEach(appointment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${appointment.Apoinmentidno}</td>
+                    <td>${appointment.Name}</td>
+                    <td>${appointment.Id}</td>
+                    <td>${appointment.Email}</td>
+                    <td>${appointment.Date}</td>
+                    <td>${appointment.Test}</td>
+                `;
+                appointmentTableBody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching appointments:', error));
+}
 
-   // Function to fetch appointment by ID
-   function getAppointmentById(id) {
-       fetch(`http://localhost:8081/appointments/${id}`)
-           .then(response => {
-               if (!response.ok) {
-                   throw new Error('Appointment not found');
-               }
-               return response.json();
-           })
-           .then(appointment => {
-               // Populate your form with appointment data
-               document.getElementById('paymentid').value = appointment.paymentId;
-               document.getElementById('name').value = appointment.name;
-               document.getElementById('email').value = appointment.email;
-               document.getElementById('date').value = appointment.date;
-               document.getElementById('test').value = appointment.test;
-           })
-           .catch(error => console.error('Error fetching appointment by ID:', error));
-   }
-
-    // Call getAllAppointments function when the page loads
-    window.onload = getAllAppointments;
+function getAppointmentById(id) {
+    fetch(`http://localhost:8081/appointments/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Appointment not found');
+            }
+            return response.json();
+        })
+        .then(appointment => {
+            // Populate your form with appointment data
+            document.getElementById('Apoinmentidno').value = appointment.Apoinmentidno;
+            document.getElementById('name').value = appointment.Name;
+            document.getElementById('id').value = appointment.Id;
+            document.getElementById('email').value = appointment.Email;
+            document.getElementById('date').value = appointment.Date;
+            document.getElementById('test').value = appointment.Test;
+        })
+        .catch(error => console.error('Error fetching appointment by ID:', error));
+}
 
 
     function paynow(event) {
