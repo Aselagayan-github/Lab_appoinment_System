@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Management Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        table {
+            margin-top: 20px;
+            background-color: #ffffff;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 10px;
+        }
+
+        form {
+            margin-top: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin-right: 10px;
+        }
+
+        #message {
+            margin-top: 10px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Appointment Details</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Payment ID</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Date</th>
+            <th>Time</th>
+
+        </tr>
+        </thead>
+        <tbody id="appoinmentTable"></tbody>
+    </table>
+
+    <script>
+        // Fetch appointments from the API and populate the table
+        fetch('http://localhost:8081/getAllAppointments')
+            .then(response => response.json())
+            .then(data => {
+                const appointmentTableBody = document.getElementById('appoinmentTable');
+                data.forEach(appointment => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${appointment.paymentId}</td>
+                        <td>${appointment.name}</td>
+                        <td>${appointment.id}</td>
+                        <td>${appointment.email}</td>
+                        <td>${appointment.date}</td>
+                        <td>${appointment.time}</td>
+
+                    `;
+                    appointmentTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching appointments:', error));
+
+
+        }
+    </script>
+
+
+
+
+    <div id="message" class="alert"></div>
+</div>
+<script>
+
+</script>
+
+
+</body>
+</html>
