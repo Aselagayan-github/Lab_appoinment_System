@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,5 +92,38 @@ public class AppointmentController {
             return new ResponseEntity<>("Appointment with paymentId " + paymentId + " not found.", HttpStatus.NOT_FOUND);
         }
     }
+
+    // PUT method to update appointment by paymentId
+    @PutMapping("/appointments/{paymentId}")
+    public ResponseEntity<String> updateAppointmentByPaymentId(@PathVariable String paymentId, @RequestBody Appointment updatedAppointment) {
+        // Find appointment by paymentId in the repository
+        Optional<Appointment> appointmentOptional = appointmentRepository.findByPaymentId(paymentId);
+
+        // Check if the appointment exists
+        if (appointmentOptional.isPresent()) {
+            // Get the existing appointment
+            Appointment existingAppointment = appointmentOptional.get();
+
+            // Update the existing appointment with the new data
+            existingAppointment.setName(updatedAppointment.getName());
+            existingAppointment.setEmail(updatedAppointment.getEmail());
+            existingAppointment.setAddress(updatedAppointment.getAddress());
+            existingAppointment.setPhoneNumber(updatedAppointment.getPhoneNumber());
+            existingAppointment.setDate(updatedAppointment.getDate());
+            existingAppointment.setTime(updatedAppointment.getTime());
+            existingAppointment.setTest(updatedAppointment.getTest());
+
+            // Save the updated appointment
+            appointmentRepository.save(existingAppointment);
+
+            // Return success response with a message
+            String successMessage = "Appointment with paymentId " + paymentId + " updated successfully.";
+            return new ResponseEntity<>(successMessage, HttpStatus.OK);
+        } else {
+            // If appointment not found, return HttpStatus NOT_FOUND
+            return new ResponseEntity<>("Appointment with paymentId " + paymentId + " not found.", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }
