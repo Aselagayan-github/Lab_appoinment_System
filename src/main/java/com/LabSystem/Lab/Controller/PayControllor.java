@@ -1,14 +1,13 @@
 package com.LabSystem.Lab.Controller;
+
 import com.LabSystem.Lab.Model.Pay;
 import com.LabSystem.Lab.Repostory.Payrepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +52,39 @@ public class PayControllor {
             return ResponseEntity.notFound().build();
         }
     }
+    // GET method to fetch payments by name
+    @GetMapping("/getPaymentsByName/{name}")
+    public ResponseEntity<List<Pay>> getPaymentsByName(@PathVariable("name") String name) {
+        List<Pay> payments = payrepository.findByName(name);
+        if (payments.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(payments);
+    }
+
+    // PUT method to update payment by card number
+    @PutMapping("/updatePayment/{cardno}")
+    public ResponseEntity<String> updatePaymentByCardNo(@PathVariable("cardno") String cardNo, @RequestBody Pay updatedPayment) {
+        Optional<Pay> existingPaymentOptional = payrepository.findByCardno(cardNo);
+        if (existingPaymentOptional.isPresent()) {
+            Pay existingPayment = existingPaymentOptional.get();
+
+            // Update the fields of the existing payment with the values from the updated payment
+            existingPayment.setApoinmentidno(updatedPayment.getApoinmentidno());
+            existingPayment.setName(updatedPayment.getName());
+            existingPayment.setCardno(updatedPayment.getCardno());
+            existingPayment.setCvc(updatedPayment.getCvc());
+            existingPayment.setDate(updatedPayment.getDate());
+            existingPayment.setPayamount(updatedPayment.getPayamount());
+
+            // Save the updated payment
+            payrepository.save(existingPayment);
+
+            return ResponseEntity.ok().body("Payment with card number " + cardNo + " updated successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }
