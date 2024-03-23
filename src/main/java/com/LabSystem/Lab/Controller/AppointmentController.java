@@ -2,11 +2,14 @@ package com.LabSystem.Lab.Controller;
 
 import com.LabSystem.Lab.Model.Appointment;
 import com.LabSystem.Lab.Repostory.AppointmentRepository;
+import com.LabSystem.Lab.email.SendEmailEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,45 +24,49 @@ public class AppointmentController {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher; // Autowire ApplicationEventPublisher
+
+    // POST method to create a new appointment
     @PostMapping("/appointments")
-    public ResponseEntity<String> createAppointment(@RequestBody Appointment appointment) {
-        // Generate Pay ID (You can implement your logic here)
-        String paymentId = generatePaymentId();
+    public Appointment createAppointment(@RequestBody Appointment appointment) {
+        Appointment savedAppointment = appointmentRepository.save(appointment);
 
-        // Set the generated Pay ID
-        appointment.setPaymentId(paymentId);
+        sendConfirmationEmail(savedAppointment);
 
-        // Save the appointment with Pay ID
-        appointmentRepository.save(appointment);
-
-        // Construct success message with appointment details
-        String successMessage = "Appointment created successfully." +
-                " \nAppointment Details: " +
-                "\nPay ID: " + paymentId +
-                "\nName: " + appointment.getName() +
-                "\nID: " + appointment.getId() +
-                "\nEmail: " + appointment.getEmail() +
-                "\nAddress: " + appointment.getAddress() +
-                "\nPhone Number: " + appointment.getPhoneNumber() +
-                "\nDate: " + appointment.getDate() +
-                "\nTime: " + appointment.getTime() +
-                "\nTesting Type: " + appointment.getTest();
-
-        // Return success response
-        return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
+        return savedAppointment;
     }
 
-    // Method to generate Pay ID (you can implement your logic here)
-    private String generatePaymentId() {
-        // Implement your logic to generate Pay ID, for example:
-        return "PYMT" + System.currentTimeMillis(); // This is just a sample logic, you can use your own logic here
+    private void sendConfirmationEmail(Appointment appointment) {
+        String paymentId = String.valueOf(appointment.getPaymentId());
+        String toEmail = appointment.getEmail();
+        String subject = "Appointment Confirmation";
+        String body = "Hi " + appointment.getName() + ",\n\n" +
+                "Your appointment has been confirmed.\n" +
+                "Payment ID: " + paymentId + "\n" +
+                "Your ID: " + appointment.getId() + "\n" +
+                "Date: " + appointment.getDate() + "\n" +
+                "Time: " + appointment.getTime() + "\n" +
+                "Address: " + appointment.getAddress() + "\n" +
+                "Phone Number: " + appointment.getPhoneNumber() + "\n\n" +
+                "Thank you for choosing our service.\n\n" +
+                "Best Regards,\n" +
+                "ABCLABCAREPRO......,\n";
+
+        // Publish SendEmailEvent
+        eventPublisher.publishEvent(new SendEmailEvent(this, toEmail, subject, body));
     }
+
     // GET method to retrieve all appointments
     @GetMapping("/getAllAppointments")
     public ResponseEntity<List<Appointment>> getAllAppointments() {
         List<Appointment> appointments = appointmentRepository.findAll();
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
+
     // GET method to retrieve appointment by ID
     @GetMapping("/appointments/{id}")
     public ResponseEntity<Appointment> getAppointmentById(@PathVariable String id) {
@@ -75,6 +82,7 @@ public class AppointmentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     // DELETE method to delete appointment by paymentId
     @DeleteMapping("/appointments/{paymentId}")
     public ResponseEntity<String> deleteAppointmentByPaymentId(@PathVariable String paymentId) {
@@ -124,6 +132,4 @@ public class AppointmentController {
             return new ResponseEntity<>("Appointment with paymentId " + paymentId + " not found.", HttpStatus.NOT_FOUND);
         }
     }
-
-
 }

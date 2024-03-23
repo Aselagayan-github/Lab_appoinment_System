@@ -263,46 +263,50 @@ button[type="submit"]:hover {
     <!-- Appointment End -->
 
     <script>
-        document.getElementById('appointmentForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
+        document.addEventListener("DOMContentLoaded", function() {
+    // Function to handle form submission
+    document.getElementById("appointmentForm").addEventListener("submit", function(event) {
+        // Prevent default form submission
+        event.preventDefault();
 
-            // Retrieve form data
-            var formData = {
-                name: document.getElementById("name").value,
-                id: document.getElementById("id").value,
-                email: document.getElementById("email").value,
-                address: document.getElementById("address").value,
-                phoneNumber: document.getElementById("phoneNumber").value,
-                date: document.getElementById("date").value,
-                time: document.getElementById("time").value,
-                test: document.getElementById("test").value
-            };
+        // Get form data
+        var formData = {
+            name: document.getElementById("name").value,
+            id: document.getElementById("id").value,
+            email: document.getElementById("email").value,
+            address: document.getElementById("address").value,
+            phoneNumber: document.getElementById("phoneNumber").value,
+            date: document.getElementById("date").value,
+            time: document.getElementById("time").value
+            // Add more fields if needed
+        };
 
-            // Send form data to server
-            fetch('http://localhost:8081/appointments', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to create appointment');
-                }
-                return response.text(); // Extract response body as text
-            })
-            .then(data => {
-                alert('AppointmentID is your payment ID Must you save your txt file.\n' + data); // Show success message
-                // Optionally, clear the form fields
-                document.getElementById('appointmentForm').reset();
-                window.location.href = 'cerditpay.html';
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again later.'); // Show error message
-            });
+        // Send form data to the server
+        fetch("http://localhost:8081/appointments", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error creating appointment");
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Handle successful response
+            alert("Appointment created successfully!");
+            window.location.href = 'cerditpay.html';
+            // Optionally, you can redirect the user to another page or perform other actions
+        })
+        .catch(error => {
+            // Handle error
+            alert("Error creating appointment: " + error.message);
         });
+    });
+});
     </script>
 
 
