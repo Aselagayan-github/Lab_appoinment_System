@@ -153,15 +153,57 @@
             <input type="text" class="form-control" id="time" name="time" required>
         </div>
 
-        <button type="button" class="btn btn-success" onclick="updateAppointment()">Submit Appointment</button>
-        <button type="button" class="btn btn-success" onclick="updateAppointment()">Update Appointment</button>
+        <button type="submit" class="btn btn-success">Submit Appointment</button>
+        <button type="submit" class="btn btn-success" onclick="updateAppointment()">Update Appointment</button>
 
     </form>
 
     <div id="message" class="alert"></div>
 </div>
 <script>
-    d
+    document.addEventListener("DOMContentLoaded", function() {
+// Function to handle form submission
+document.getElementById("appointmentForm").addEventListener("submit", function(event) {
+    // Prevent default form submission
+    event.preventDefault();
+
+    // Get form data
+    var formData = {
+        name: document.getElementById("name").value,
+        id: document.getElementById("id").value,
+        email: document.getElementById("email").value,
+        address: document.getElementById("address").value,
+        phoneNumber: document.getElementById("phoneNumber").value,
+        date: document.getElementById("date").value,
+        time: document.getElementById("time").value
+        // Add more fields if needed
+    };
+
+    // Send form data to the server
+    fetch("http://localhost:8081/appointments", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error creating appointment");
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Handle successful response
+        alert("Appointment created successfully!");
+        // Optionally, you can redirect the user to another page or perform other actions
+    })
+    .catch(error => {
+        // Handle error
+        alert("Error creating appointment: " + error.message);
+    });
+});
+});
 </script>
 
 
