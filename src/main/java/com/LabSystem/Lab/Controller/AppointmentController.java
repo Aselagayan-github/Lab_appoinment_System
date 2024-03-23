@@ -54,7 +54,7 @@ public class AppointmentController {
                 "Phone Number: " + appointment.getPhoneNumber() + "\n\n" +
                 "Thank you for choosing our service.\n\n" +
                 "Best Regards,\n" +
-                "ABCLABCAREPRO......,\n";
+                "ABCLABCAREPRO System Message ......,\n";
 
         // Publish SendEmailEvent
         eventPublisher.publishEvent(new SendEmailEvent(this, toEmail, subject, body));
