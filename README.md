@@ -19,6 +19,7 @@ git clone [repository_url]
 ## ⚙️ Step 3: Configure MongoDB
 - ✔️ Ensure MongoDB is running on your local machine.
 - 🔄 If MongoDB is not running, start it using the appropriate command for your operating system.
+
 ## ⚙️ Step 4: Configure Application Properties
 1. 📝 Open the `application.properties` file located in the `src/main/resources` directory.
 2. 🔧 Configure the MongoDB connection settings according to your local setup. Example:
