@@ -115,32 +115,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="table-container">
-        <h2>Appointments</h2>
-        <h2 class="cd-title">Search Table Record:</h2>
-        <input type="text" id="userIdInput" class="cd-search table-filter" data-table="order-table" placeholder="User ID to filter.." />
-        <br><br>
-        <button type="button" onclick="searchUserById()">SEARCH NOW</button>
-        <br>
-        <br>
 
-        <table class="table" id="appointmentTable">
-            <thead>
-            <tr>
-                <th>Apoinmentidno</th>
-                <th>Name</th>
-
-                <th>Email</th>
-                <th>Date</th>
-                <th>Test</th>
-            </tr>
-            </thead>
-            <tbody id="appointmentTableBody"></tbody>
-        </table>
-    </div>
-
-    <br>
-    <br>
     <form class="form" id="payform">
         <h2>Payment Form</h2>
         <div class="form-group">
@@ -177,33 +152,6 @@
 </div>
 
 <script>
-
-    function getAllAppointments() {
-       fetch('http://localhost:8081/getAllAppointments')
-           .then(response => response.json())
-           .then(data => {
-               const appointmentTableBody = document.getElementById('appointmentTableBody');
-               appointmentTableBody.innerHTML = '';
-
-               data.forEach(appointment => {
-                   const row = document.createElement('tr');
-                   row.innerHTML = `
-                       <td>${appointment.paymentId}</td>
-                       <td>${appointment.name}</td>
-
-                       <td>${appointment.email}</td>
-                       <td>${appointment.date}</td>
-                       <td>${appointment.test}</td>
-                   `;
-                   appointmentTableBody.appendChild(row);
-               });
-           })
-           .catch(error => console.error('Error fetching appointments:', error));
-   }
-
-   // Call getAllAppointments function when the page loads
-   window.onload = getAllAppointments;
-
 
    function paynow(event) {
        event.preventDefault(); // Prevent form submission
