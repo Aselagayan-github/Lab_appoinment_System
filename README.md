@@ -27,9 +27,12 @@ git clone [repository_url]
    spring.data.mongodb.host=localhost
    spring.data.mongodb.port=27017
    spring.data.mongodb.database=lab_appointment_system
+
 ▶️ Step 5: Run the Application
 🔄 Find the main application file, usually named LabAppointmentSystemApplication.java.
 🖱️ Right-click on the file and select "Run LabAppointmentSystemApplication".
+
+
 ## 🌐 Step 6: Access the Application
 1. 🚀 Once the application has started successfully, open a web browser.
 2. 🖥️ Type `http://localhost:8080` in the address bar and press Enter.
