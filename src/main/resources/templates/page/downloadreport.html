@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Result Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            background-image: url('images/bg1.jpg');
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        table {
+            margin-top: 20px;
+            background-color: #ffffff;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 10px;
+        }
+
+        form {
+            margin-top: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin-right: 10px;
+        }
+
+        #message {
+            margin-top: 10px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Test Result Download</h1>
+    <h2>View Result Details</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Payment ID</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Gender</th>
+            <th>Contact</th>
+            <th>Test name</th>
+
+            <th>Download</th>
+        </tr>
+        </thead>
+        <tbody id="viewreport"></tbody>
+    </table>
+</div>
+
+<script> document.addEventListener('DOMContentLoaded', function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:8081/api/results/all', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var results = JSON.parse(xhr.responseText);
+                    var tableBody = document.getElementById('viewreport');
+                    results.forEach(function(result) {
+                        var row = document.createElement('tr');
+                        row.innerHTML = '<td>' + result.appoinmentid + '</td>' +
+                                        '<td>' + result.name + '</td>' +
+                                        '<td>' + result.id + '</td>' +
+                                        '<td>' + result.gender + '</td>' +
+                                        '<td>' + result.contactno + '</td>' +
+                                        '<td>' + result.testtype + '</td>' +
+                                        '<td><button onclick="downloadReport(\'' + result.id + '\')">Download</button></td>';
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    console.error('Request failed: ' + xhr.status);
+                }
+            };
+            xhr.onerror = function() {
+                console.error('Request failed');
+            };
+            xhr.send();
+        });
+
+        // Function to download report
+        function downloadReport(id) {
+            // Implement download logic here
+            alert('Download report for ID: ' + id);
+        }</script>
+
+</body>
+</html>
