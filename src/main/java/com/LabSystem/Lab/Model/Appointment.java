@@ -4,9 +4,6 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Time;
-import java.util.Date;
-
 @Data
 @Document
 public class Appointment {
@@ -97,7 +94,7 @@ public class Appointment {
     }
 
 
-    public Appointment(String paymentId, String name, int id, String email, String address, String phoneNumber, String date, String time, String test) {
+    public Appointment() {
         this.paymentId = paymentId;
         this.name = name;
         this.id = id;
