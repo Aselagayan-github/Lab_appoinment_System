@@ -12,4 +12,5 @@ public interface Payrepository extends MongoRepository<Pay,Integer> {
 
     @Id
     Optional<Pay> findByCardno(String cardNo);
+
 }

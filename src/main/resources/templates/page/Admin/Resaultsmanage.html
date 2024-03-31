@@ -151,17 +151,49 @@
             <input type="text" class="form-control" id="Result" name="Result" required>
         </div>
 
-        <button type="button" class="btn btn-success" onclick="updateAppointment()">Submit Result</button>
-        <button type="button" class="btn btn-success" onclick="updateAppointment()">Update Result</button>
+        <button type="submit" class="btn btn-success" onclick="addResult()">Submit Result</button>
+
 
     </form>
 
     <div id="message" class="alert"></div>
+    <div id="successMessage" style="display: none;" class="alert alert-success" role="alert"></div>
+
+    <script>
+        function addResult() {
+            // Get form data
+            var formData = {
+                appoinmentid: document.getElementById("Appoinmentid").value,
+                name: document.getElementById("Name").value,
+                id: document.getElementById("Id").value,
+                gender: document.getElementById("Gender").value,
+                contactno: document.getElementById("Contactno").value,
+                testtype: document.getElementById("Testtype").value,
+                result: document.getElementById("Result").value
+            };
+
+            // Make POST request to Spring Boot API
+            fetch('http://localhost:8081/results', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                document.getElementById("successMessage").innerText = "Result saved successfully!";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Optionally, you can handle errors here
+            });
+        }
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
 </div>
-<script>
-    d
-</script>
-
-
 </body>
 </html>

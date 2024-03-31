@@ -8234,50 +8234,67 @@ h1, h2, h3, h4, h5,
                     <table class="table table-bordered table-dark table-hover">
                         <thead>
                         <tr>
-                            <th class="Apoinmentidno">Apoinmentidno</th>
-                            <th class="name">name</th>
-                            <th class="cardno">cardno</th>
-                            <th class="date">date</th>
-                            <th class="payamount">payamount</th>
+                            <th class="Apoinmentidno">Appointment ID</th>
+                            <th class="name">Name</th>
+                            <th class="cardno">Card Number</th>
+                            <th class="date">Date</th>
+                            <th class="payamount">Payment Amount</th>
                             <th>Action</th>
                         </tr>
                         </thead>
-                        <tbody id="dailysailsview"></tbody>
+                        <tbody id="dailySalesView"></tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script>
-    function getAllPayments() {
-        fetch('http://localhost:8081/getAllPayments')
-            .then(response => response.json())
-            .then(data => {
-                const dailysailsview = document.getElementById('dailysailsview');
-                dailysailsview.innerHTML = '';
+        <script>
+            function getAllPayments() {
+                fetch('http://localhost:8081/getAllPayments')
+                    .then(response => response.json())
+                    .then(data => {
+                        const dailySalesView = document.getElementById('dailySalesView');
+                        dailySalesView.innerHTML = '';
 
-                data.forEach(pay => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${pay.apoinmentidno}</td>
-                        <td>${pay.name}</td>
-                        <td>${pay.cardno}</td>
-                        <td>${pay.date}</td>
-                        <td>${pay.payamount}</td>
-                        <td><button  onclick="deleteContact(${pay.apoinmentidno})">Delete</button></td>
-                    `;
-                    dailysailsview.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Error fetching payments:', error));
-    }
+                        data.forEach(payment => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${payment.apoinmentidno}</td>
+                                <td>${payment.name}</td>
+                                <td>${payment.cardno}</td>
+                                <td>${payment.date}</td>
+                                <td>${payment.payamount}</td>
+                                <td><button onclick="deletePayment(${payment.apoinmentidno})">Delete</button></td>
+                            `;
+                            row.setAttribute('data-apoinmentidno', payment.apoinmentidno);
+                            dailySalesView.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching payments:', error));
+            }
 
-    // Call the function to fetch and display payments
-    getAllPayments();
-</script>
+            function deletePayment(apoinmentidno) {
+                // Send request to delete payment with ID apoinmentidno
+                fetch(`http://localhost:8081/deletePayment/${apoinmentidno}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // If deletion is successful, reload the payments list
+                        getAllPayments();
+                    } else {
+                        console.error('Failed to delete payment');
+                    }
+                })
+                .catch(error => console.error('Error deleting payment:', error));
+            }
 
-<script src="js/jquery.min.js"></script>
+            getAllPayments();
+        </script>
+
+
+        <script src="js/jquery.min.js"></script>
 <script src="js/popper.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>

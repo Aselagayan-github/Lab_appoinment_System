@@ -93,6 +93,7 @@ public class appoinmentservicetest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(appointments, responseEntity.getBody());
     }
+
     @Test
     public void testDeleteAppointmentByPaymentId() {
         // Create a sample paymentId
@@ -126,56 +127,56 @@ public class appoinmentservicetest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Appointment with paymentId " + paymentId + " deleted successfully.", responseEntity.getBody());
     }
+
+
+
     @Test
-    public void testUpdateAppointmentByPaymentId() {
-        // Create a sample paymentId
-        String paymentId = "12345";
-
-        // Create a sample appointment object
+    void testUpdateAppointmentById() {
+        // Mock data
+        String id = "1";
         Appointment existingAppointment = new Appointment();
-        existingAppointment.setPaymentId(paymentId);
-        existingAppointment.setName("John Doe");
-        existingAppointment.setId(1);
-        existingAppointment.setEmail("johndoe@example.com");
-        existingAppointment.setAddress("123 Main St");
-        existingAppointment.setPhoneNumber("1234567890");
-        existingAppointment.setDate("2024-03-24");
-        existingAppointment.setTime("10:00 AM");
-
-        // Create a sample updated appointment object
+        existingAppointment.setId(Integer.parseInt(id));
         Appointment updatedAppointment = new Appointment();
-        updatedAppointment.setPaymentId(paymentId);
-        updatedAppointment.setName("Jane Doe");
-        updatedAppointment.setId(1);
-        updatedAppointment.setEmail("janedoe@example.com");
-        updatedAppointment.setAddress("456 Elm St");
-        updatedAppointment.setPhoneNumber("9876543210");
-        updatedAppointment.setDate("2024-04-24");
-        updatedAppointment.setTime("11:00 AM");
+        updatedAppointment.setId(Integer.parseInt(id));
+        updatedAppointment.setName("Updated Name");
 
-        // Mock behavior of appointmentRepository.findByPaymentId() method
-        when(appointmentRepository.findByPaymentId(paymentId)).thenReturn(Optional.of(existingAppointment));
-        // Mock behavior of appointmentRepository.save() method
-        when(appointmentRepository.save(existingAppointment)).thenReturn(existingAppointment);
+        // Mock repository behavior
+        when(appointmentRepository.findById(id)).thenReturn(Optional.of(existingAppointment));
+        when(appointmentRepository.save(existingAppointment)).thenReturn(updatedAppointment);
 
-        // Call the method under test
-        ResponseEntity<String> responseEntity = appointmentController.updateAppointmentByPaymentId(paymentId, updatedAppointment);
+        // Call the controller method
+        ResponseEntity<Appointment> response = appointmentController.updateAppointmentById(id, updatedAppointment);
 
-        // Verify that appointmentRepository.findByPaymentId() was called once
-        verify(appointmentRepository, times(1)).findByPaymentId(paymentId);
-        // Verify that appointmentRepository.save() was called once
+        // Verify repository interactions
+        verify(appointmentRepository, times(1)).findById(id);
         verify(appointmentRepository, times(1)).save(existingAppointment);
 
-        // Verify the response
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Appointment with paymentId " + paymentId + " updated successfully.", responseEntity.getBody());
-
-        // Verify that the existing appointment was updated correctly
-        assertEquals("Jane Doe", existingAppointment.getName());
-        assertEquals("janedoe@example.com", existingAppointment.getEmail());
-        assertEquals("456 Elm St", existingAppointment.getAddress());
-        assertEquals("9876543210", existingAppointment.getPhoneNumber());
-        assertEquals("2024-04-24", existingAppointment.getDate());
-        assertEquals("11:00 AM", existingAppointment.getTime());
+        // Check the response
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(updatedAppointment, response.getBody());
     }
+
+    @Test
+    void testUpdateAppointmentByIdNotFound() {
+        // Mock data
+        String id = "1";
+        Appointment updatedAppointment = new Appointment();
+        updatedAppointment.setId(Integer.parseInt(id));
+        updatedAppointment.setName("Updated Name");
+
+        // Mock repository behavior
+        when(appointmentRepository.findById(id)).thenReturn(Optional.empty());
+
+        // Call the controller method
+        ResponseEntity<Appointment> response = appointmentController.updateAppointmentById(id, updatedAppointment);
+
+        // Verify repository interactions
+        verify(appointmentRepository, times(1)).findById(id);
+        verify(appointmentRepository, never()).save(any(Appointment.class));
+
+        // Check the response
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(null, response.getBody());
+    }
+
 }

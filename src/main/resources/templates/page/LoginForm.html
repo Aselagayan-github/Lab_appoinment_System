@@ -26,7 +26,7 @@
 			font-weight: 400;
             line-height: 1.5;
 			height: 50px;
-            color: rgb(17, 16, 16) !important;
+            color: red;
             border: 1px solid transparent;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 40px;
@@ -8406,11 +8406,11 @@ textarea.form-control {
                     <h3 class="mb-4 text-center">Have an account?</h3>
                     <form action="#" class="signin-form" id="loginForm">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Id number" id="id" required>
+                            <input type="text" class="form-control" placeholder="Name" id="name" required>
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control" placeholder="Password" id="password" required>
-                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+
                         </div>
                         <!-- Add the user type combo box -->
                         <div class="form-group">
@@ -8423,25 +8423,12 @@ textarea.form-control {
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="form-control btn btn-primary submit px-3" onclick="login()">Sign In</button>
+                            <button type="submit" class="form-control btn btn-primary submit px-3" onclick="login()">Sign In</button>
                         </div>
-                        <div class="form-group d-md-flex">
-                            <div class="w-50">
-                                <label class="checkbox-wrap checkbox-primary">Remember Me
-                                    <input type="checkbox" checked>
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="w-50 text-md-right">
-                                <a href="#" style="color: #fff">Forgot Password</a>
-                            </div>
-                        </div>
+
+
                     </form>
-                    <p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
-                    <div class="social d-flex text-center">
-                        <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Facebook</a>
-                        <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span> Twitter</a>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -8450,20 +8437,23 @@ textarea.form-control {
 
 <script>
     function login() {
-        var usertype = document.getElementById('usertype').value; // Get selected user type
-
-        // Check the selected user type and redirect accordingly
-        if (usertype == 'Admin') {
-            window.location.href = 'Admin/Admindashboard.html'; // Redirect to admin dashboard
-            alert("Admin login successful!");
-        } else if (usertype == 'Lab Technician') {
-            window.location.href = 'Staff/Staff.html'; // Redirect to lab technician page
-            alert("Lab Technician login successful!");
-        } else {
+        var userType = document.getElementById("usertype").value;
+        if (userType === "Not Selected") {
             alert("Please select a user type.");
+            return false;
+        } else if (userType === "Admin") {
+            alert("Login successful as Admin.");
+            window.location.href = "Admin/admindashboard.html";
+            return true;
+        } else if (userType === "Lab Technician") {
+            alert("Login successful as Lab Technician.");
+            window.location.href = "Staff/Staff.html";
+            return true;
         }
     }
 </script>
+
+
 
 
 

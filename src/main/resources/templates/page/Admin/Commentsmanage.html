@@ -317,15 +317,31 @@ input[type="password"] {
     // Call the function to fetch and display contact data
     getAllContact();
 
+    function deleteContact(id) {
+            fetch(`http://localhost:8081/deleteContact/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Contact deleted successfully!');
+                    // After successful deletion, refresh the contact list
+                    getAllContact();
+                } else {
+                    alert('Failed to delete contact. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            });
+        }
+
 </script>
 
-
-
-<!-- Edit Modal HTML -->
 <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form>
+            <form id="contactform">
                 <div class="modal-header">
                     <h4 class="modal-title">Add Comment</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -354,7 +370,7 @@ input[type="password"] {
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary w-100 py-3" type="button" onclick="addContact()">Send Message</button>
-                    <button class="btn btn-primary w-100 py-3" data-dismiss="modal" value="Cancel">Cancel now</button>
+                    <button class="btn btn-primary w-100 py-3" data-dismiss="modal" type="button">Cancel now</button>
                 </div>
             </form>
         </div>
@@ -398,9 +414,11 @@ input[type="password"] {
             alert('An error occurred. Please try again later.');
         });
     }
-
-
 </script>
+
+
+
+
 
 </body>
 </html>

@@ -101,35 +101,32 @@ public class AppointmentController {
         }
     }
 
-    // PUT method to update appointment by paymentId
-    @PutMapping("/appointments/{paymentId}")
-    public ResponseEntity<String> updateAppointmentByPaymentId(@PathVariable String paymentId, @RequestBody Appointment updatedAppointment) {
-        // Find appointment by paymentId in the repository
-        Optional<Appointment> appointmentOptional = appointmentRepository.findByPaymentId(paymentId);
+    @PutMapping("/appointments/{id}")
+    public ResponseEntity<Appointment> updateAppointmentById(@PathVariable String id, @RequestBody Appointment updatedAppointment) {
+        // Find the existing appointment by ID in the repository
+        Optional<Appointment> existingAppointmentOptional = appointmentRepository.findById(id);
 
         // Check if the appointment exists
-        if (appointmentOptional.isPresent()) {
+        if (existingAppointmentOptional.isPresent()) {
             // Get the existing appointment
-            Appointment existingAppointment = appointmentOptional.get();
+            Appointment existingAppointment = existingAppointmentOptional.get();
 
-            // Update the existing appointment with the new data
+            // Update the appointment details with the new values
             existingAppointment.setName(updatedAppointment.getName());
             existingAppointment.setEmail(updatedAppointment.getEmail());
             existingAppointment.setAddress(updatedAppointment.getAddress());
             existingAppointment.setPhoneNumber(updatedAppointment.getPhoneNumber());
             existingAppointment.setDate(updatedAppointment.getDate());
             existingAppointment.setTime(updatedAppointment.getTime());
-            existingAppointment.setTest(updatedAppointment.getTest());
 
             // Save the updated appointment
-            appointmentRepository.save(existingAppointment);
+            Appointment updatedAppointmentEntity = appointmentRepository.save(existingAppointment);
 
-            // Return success response with a message
-            String successMessage = "Appointment with paymentId " + paymentId + " updated successfully.";
-            return new ResponseEntity<>(successMessage, HttpStatus.OK);
+            // Return the updated appointment with HttpStatus OK
+            return new ResponseEntity<>(updatedAppointmentEntity, HttpStatus.OK);
         } else {
-            // If appointment not found, return HttpStatus NOT_FOUND
-            return new ResponseEntity<>("Appointment with paymentId " + paymentId + " not found.", HttpStatus.NOT_FOUND);
+            // If the appointment with the given ID is not found, return HttpStatus NOT_FOUND
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
