@@ -191,29 +191,6 @@
             });
         }
 
-        function generatePDF() {
-    fetch('http://localhost:8081/results/generatePdf', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => {
-        if (response.ok) {
-            alert("PDF generated and saved successfully!");
-        } else {
-            alert("Failed to generate PDF. Please try again later.");
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("An error occurred while generating PDF.");
-    });
-}
-
-
-
 
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>

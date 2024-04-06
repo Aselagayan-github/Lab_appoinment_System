@@ -316,8 +316,24 @@ input[type="password"] {
     // Call the function to fetch and display contact data
     getAlltest();
 
+    function deleteTest(id) {
+        fetch(`http://localhost:8081/deletetest/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                // Remove the deleted test row from the table
+                const row = document.getElementById(`testRow-${id}`);
+                if (row) {
+                    row.remove();
+                }
+            } else {
+                console.error('Failed to delete test');
+            }
+        })
+        .catch(error => console.error('Error deleting test:', error));
+    }
 </script>
-
 
 
 <!-- Edit Modal HTML -->
@@ -393,6 +409,7 @@ input[type="password"] {
             alert('An error occurred. Please try again later.');
         });
     }
+
 
 
 </script>
