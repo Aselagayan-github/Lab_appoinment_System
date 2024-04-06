@@ -305,7 +305,7 @@ input[type="password"] {
                         <td>${test.technician}</td>
                         <td>${test.price}</td>
 
-                        <td><button class="btn btn-danger btn-sm" onclick="deletetest(${test.id})">Delete</button></td>
+                       <td><button class="btn btn-danger btn-sm" onclick="deleteTest(${test.id})">Delete</button></td>
                     `;
                     testTableBody.appendChild(row);
                 });
@@ -324,6 +324,8 @@ input[type="password"] {
             if (response.ok) {
                 // Remove the deleted test row from the table
                 const row = document.getElementById(`testRow-${id}`);
+                alert('Delete Record Successfully....!!!');
+
                 if (row) {
                     row.remove();
                 }
@@ -333,6 +335,8 @@ input[type="password"] {
         })
         .catch(error => console.error('Error deleting test:', error));
     }
+    // Call the function to fetch and display contact data
+    getAlltest();
 </script>
 
 
@@ -409,6 +413,7 @@ input[type="password"] {
             alert('An error occurred. Please try again later.');
         });
     }
+
 
 
 </script>
