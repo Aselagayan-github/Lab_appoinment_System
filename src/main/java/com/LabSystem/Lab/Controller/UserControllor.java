@@ -34,8 +34,8 @@ public class UserControllor {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        Optional<User> userOptional = userrepository.findById(Integer.valueOf(id));
+    public ResponseEntity<User> getUserById(@PathVariable String idno) {
+        Optional<User> userOptional = userrepository.findById(Integer.valueOf(idno));
         if (userOptional.isPresent()) {
             return new ResponseEntity<>(userOptional.get(), HttpStatus.OK);
         } else {
@@ -69,29 +69,20 @@ public class UserControllor {
         }
     }
 
-
     @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable String id) {
+    public ResponseEntity<String> deleteUserById(@PathVariable String idno) {
         try {
-            Optional<User> userOptional = userrepository.findById(Integer.valueOf(id));
+            Optional<User> userOptional = userrepository.findByIdno(idno);
             if (userOptional.isPresent()) {
-                userrepository.deleteById(Integer.valueOf(id));
-                return ResponseEntity.ok("User with ID " + id + " deleted successfully.");
+                userrepository.deleteById(Integer.valueOf(idno));
+                return ResponseEntity.ok("User with ID " + idno + " deleted successfully.");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("User with ID " + id + " not found.");
+                        .body("User with ID " + idno + " not found.");
             }
-        } catch (NumberFormatException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Invalid user ID format.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred while deleting the user.");
+                    .body("Error occurred while deleting user: " + e.getMessage());
         }
     }
-
-
-
-
-
 }

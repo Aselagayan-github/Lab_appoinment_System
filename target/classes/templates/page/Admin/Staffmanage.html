@@ -66,34 +66,52 @@
     </table>
 
     <script>
-        function getallusers() {
-            fetch('http://localhost:8081/allUsers')
-                .then(response => response.json())
-                .then(data => {
-                    const userTableBody = document.getElementById('userTableBody');
-                    userTableBody.innerHTML = '';
+        function deleteUser(userId) {
+        fetch(`http://localhost:8081/user/${userId}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('User deleted successfully!');
+                getallusers(); // Refresh the user list after deletion
+            } else {
+                alert('Failed to delete user. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        });
+    }
 
-                    data.forEach(user => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${user.id}</td>
-                            <td>${user.name}</td>
-                            <td>${user.address}</td>
-                            <td>${user.contactno}</td>
-                            <td>${user.usertype}</td>
-                            <td>${user.qulification}</td>
-                            <td>${user.experience}</td>
-                            <td>${user.password}</td>
-                            <td><button class="btn btn-danger btn-sm" onclick="deleteContact(${user.id})">Delete</button></td>
-                        `;
-                        userTableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching contact data:', error));
-        }
+    function getallusers() {
+        fetch('http://localhost:8081/allUsers')
+            .then(response => response.json())
+            .then(data => {
+                const userTableBody = document.getElementById('userTableBody');
+                userTableBody.innerHTML = '';
 
-        // Call the function to fetch and display contact data
-        getallusers()
+                data.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.idno}</td>
+                        <td>${user.name}</td>
+                        <td>${user.address}</td>
+                        <td>${user.contactno}</td>
+                        <td>${user.usertype}</td>
+                        <td>${user.qulification}</td>
+                        <td>${user.experience}</td>
+                        <td>${user.password}</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">Delete</button></td>
+                    `;
+                    userTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching user data:', error));
+    }
+
+    // Call the function to fetch and display user data
+    getallusers();
 
     </script>
 
