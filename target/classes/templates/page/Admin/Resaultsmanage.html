@@ -11,9 +11,9 @@
             background-color: #f8f9fa;
             padding: 20px;
             background-image: url('images/bg1.jpg');
-     background-size: cover;
-     background-position: center;
-     background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         h2 {
@@ -63,7 +63,7 @@
             <th>Email</th>
             <th>Date</th>
             <th>Time</th>
-            
+
             <th>Action</th>
         </tr>
         </thead>
@@ -152,13 +152,10 @@
         </div>
 
         <button type="submit" class="btn btn-success" onclick="addResult()">Submit Result</button>
-
-
+        <div id="successMessage" style="display: none;" class="alert alert-success" role="alert"></div>
     </form>
 
-    <div id="message" class="alert"></div>
-    <div id="successMessage" style="display: none;" class="alert alert-success" role="alert"></div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
     <script>
         function addResult() {
             // Get form data
@@ -184,6 +181,9 @@
             .then(data => {
                 console.log('Success:', data);
                 document.getElementById("successMessage").innerText = "Result saved successfully!";
+
+                // Generate PDF after saving result
+                generatePDF(formData);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -191,9 +191,24 @@
             });
         }
 
+        // Function to generate PDF
+        function generatePDF(formData) {
+            // Create new jsPDF instance
+            var doc = new jsPDF();
 
+            // Add content to the PDF
+            doc.text(20, 20, 'Appointment ID: ' + formData.appoinmentid);
+            doc.text(20, 30, 'Name: ' + formData.name);
+            doc.text(20, 40, 'ID: ' + formData.id);
+            doc.text(20, 50, 'Gender: ' + formData.gender);
+            doc.text(20, 60, 'Contact Number: ' + formData.contactno);
+            doc.text(20, 70, 'Test Type: ' + formData.testtype);
+            doc.text(20, 80, 'Result: ' + formData.result);
+
+            // Save the PDF
+            doc.save('result.pdf');
+        }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
 </div>
 </body>
 </html>

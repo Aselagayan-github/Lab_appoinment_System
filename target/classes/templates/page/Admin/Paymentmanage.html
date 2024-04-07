@@ -8276,7 +8276,7 @@ h1, h2, h3, h4, h5,
 
             function deletePayment(apoinmentidno) {
                 // Send request to delete payment with ID apoinmentidno
-                fetch(`http://localhost:8081/deletePayment/${apoinmentidno}`, {
+                fetch(`http://localhost:8081/delete/${id}`, {
                     method: 'DELETE'
                 })
                 .then(response => {
